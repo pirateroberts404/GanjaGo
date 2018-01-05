@@ -1,0 +1,57 @@
+body {
+	line-height: 1.5;
+}
+
+.header {
+	margin-top: 10px;
+}
+
+.span-header {
+
+}
+
+.nav {
+  margin-left: 85%;
+	padding: 0px;
+}
+
+.span-navbar {
+
+}
+
+.main-content {
+	/*! margin: auto; */
+}
+
+.sidebar {
+	margin-left: 5%;
+}
+
+.span-sidebar {
+
+}
+
+.outer-div {
+	margin-left: 50%;
+	position: relative;
+}
+
+.Basic {
+
+}
+
+.middle-div {
+	margin: 5%;
+}
+
+.inner-div {
+  margin: 5%;
+}
+
+.footer {
+	position: relative;
+}
+
+.span-footer {
+	margin-left: 20%;
+}
