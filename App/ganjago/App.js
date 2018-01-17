@@ -1,8 +1,21 @@
 import React from 'react';
-import {Platform, StatusBar,StyleSheet, Text, View} from 'react-native';
+import {Platform, StatusBar,StyleSheet, Text, View, Image} from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
-import RootNavigation from './nav/rootNav';
+import RootNavigation from './nav/RootNavigation';
+
+function cacheImages(images) {
+    return images.map(image => {
+        if (typeof image === 'string') {
+            return Image.prefetch(image);
+        } else {
+            return Asset.fromModule(image).downloadAsync();
+        }
+    });
+}
+
+function cacheFonts(fonts) {
+    return fonts.map(font => Font.loadAsync(font));
+}
 
 export default class App extends React.Component {
   state = {
@@ -10,50 +23,45 @@ export default class App extends React.Component {
   };
 
     render() {
-        if (!this.state.isLoadingDone && !this.props.skipLoadingScreen) {
+        if (!this.state.isLoadingDone) {
             return (
                 <AppLoading
-                    startAsync={this._loadResourcesAsync}
+                    startAsync={this._loadAssetsAsync}
                     onError={this._handleLoadingError}
                     onFinish={this._handleFinishLoading}
                 />
             );
         } else {
-            return (
-                <View style={styles.container}>
-                    {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                    {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-                    <RootNavigation />
-                </View>
-            );
+        return (
+            <View style={styles.container}>
+                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+                <RootNavigation/>
+            </View>
+        );
         }
     }
 }
 
-_loadResourcesAsync = async () => {
-    return Promise.all([
-        Asset.loadAsync([
-            // require('./assets/robot-dev.png'),
-            // require('./assets/images/robot-prod.png'),
-        ]),
-        Font.loadAsync({
-            // This is the font that we are using for our tab bar
-            ...Ionicons.font,
-            // We include SpaceMono because we use it in HomeScreen.js. Feel free
-            // to remove this if you are not using it in your app
-            'space-mono': require('./assets/SpaceMono-Regular.ttf'),
-        }),
+_loadAssetsAsync = async () => {
+    const imageAssets = cacheImages([
+        require('./assets/account.png'),
+        require('./assets/market.png'),
+        require('./assets/orders.png'),
+        require('./assets/wallet.png'),
     ]);
+
+    const fontAssets = cacheFonts([require('./assets/SpaceMono-Regular.ttf')]);
+
+    await Promise.all([...imageAssets, ...fontAssets]);
 };
 
 _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
     console.warn(error);
 };
 
 _handleFinishLoading = () => {
-    this.setState({ isLoadingComplete: true });
+    this.setState({ isLoadingDone: true });
 };
 
 const styles = StyleSheet.create({

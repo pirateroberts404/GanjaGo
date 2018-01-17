@@ -3,26 +3,26 @@ import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
-import Colors from '../constants/colors';
+import colors from '../constants/colors';
 
-import MarketScreen from '../screens/market';
-import OrdersScreen from '../screens/orders';
-import WalletsScreen from '../screens/wallets';
-import AccountScreen from '../screens/account';
+import market from '../screens/market';
+import orders from '../screens/orders';
+import wallets from '../screens/wallets';
+import accounts from '../screens/account';
 
 export default TabNavigator(
     {
         Market: {
-            screen: MarketScreen,
+            screen: market,
         },
         Orders: {
-            screen: OrdersScreen,
+            screen: orders,
         },
         Wallets: {
-            screen: WalletsScreen,
+            screen: wallets,
         },
         Account: {
-            screen: AccountScreen,
+            screen: accounts,
         },
     },
     {
@@ -47,13 +47,14 @@ export default TabNavigator(
                     case 'Account':
                         iconName =
                             Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
+                        break;
                 }
                 return (
                     <Ionicons
                         name={iconName}
                         size={28}
                         style={{ marginBottom: -3 }}
-                        color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+                        color={focused ? colors.tabIconSelected : colors.tabIconDefault}
                     />
                 );
             },

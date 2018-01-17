@@ -2,14 +2,14 @@ import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
-import MainTabNavigator from './mainNav';
+import MainNavigation from './MainNavigation';
 // import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 const RootStackNavigator = StackNavigator(
     {
         Main: {
-            screen: MainTabNavigator,
-        },
+            screen: MainNavigation,
+        }
     },
     {
         navigationOptions: () => ({
@@ -20,7 +20,7 @@ const RootStackNavigator = StackNavigator(
     }
 );
 
-export default class RootNavigator extends React.Component {
+export default class RootNavigation extends React.Component {
     componentDidMount() {
         this._notificationSubscription = this._registerForPushNotifications();
     }
