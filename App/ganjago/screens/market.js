@@ -24,11 +24,11 @@ export default class market extends React.Component {
                     </View>
                 </ScrollView>
 
-                <View style={styles.tabBarInfoContainer}>
-                    <Text style={styles.tabBarInfoText}>
-                        This is a tab bar. You can edit it in
-                    </Text>
-                </View>
+                {/*<View style={styles.tabBarInfoContainer}>*/}
+                    {/*<Text style={styles.tabBarInfoText}>*/}
+                        {/*This is a tab bar. You can edit it in*/}
+                    {/*</Text>*/}
+                {/*</View>*/}
             </View>
         );
     }

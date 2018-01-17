@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 export default class wallets extends React.Component {
     static navigationOptions = {
@@ -9,8 +9,11 @@ export default class wallets extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
+                <ScrollView style={styles.container}>
+                    <View style={styles.contentContainer}>
+                        <Text style={styles.sample_text}>This is some text</Text>
+                    </View>
+                </ScrollView>
             </ScrollView>
         );
     }
@@ -21,5 +24,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 15,
         backgroundColor: '#fff',
+    },
+    sample_text: {
+        color: '#ff59ab',
+        paddingTop: 15,
+    },
+    contentContainer: {
+        paddingTop: 30,
     },
 });

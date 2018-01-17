@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ganja Go",
     "description": "delivery service app",
-    "slug": "Weed on demand",
+    "slug": "Weed-on-demand",
     "privacy": "public",
     "sdkVersion": "24.0.0",
     "platforms": ["ios", "android"],
@@ -15,7 +15,6 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "bundleIdentifier": "com.GG.GanjaGo",
       "supportsTablet": true
     },
     "android": {

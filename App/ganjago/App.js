@@ -23,32 +23,32 @@ export default class App extends React.Component {
   };
 
     render() {
-        if (!this.state.isLoadingDone) {
+        // if (!this.state.isLoadingDone) {
+        //     return (
+        //         <AppLoading
+        //             startAsync={this._loadAssetsAsync}
+        //             onError={this._handleLoadingError}
+        //             onFinish={this._handleFinishLoading}
+        //         />
+        //     );
+        // } else {
             return (
-                <AppLoading
-                    startAsync={this._loadAssetsAsync}
-                    onError={this._handleLoadingError}
-                    onFinish={this._handleFinishLoading}
-                />
+                <View style={styles.container}>
+                    {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                    {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+                    <RootNavigation/>
+                </View>
             );
-        } else {
-        return (
-            <View style={styles.container}>
-                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-                <RootNavigation/>
-            </View>
-        );
-        }
+        // }
     }
 }
 
 _loadAssetsAsync = async () => {
     const imageAssets = cacheImages([
         require('./assets/account.png'),
-        require('./assets/market.png'),
-        require('./assets/orders.png'),
-        require('./assets/wallet.png'),
+        // require('./assets/market.png'),
+        // require('./assets/orders.png'),
+        // require('./assets/wallet.png'),
     ]);
 
     const fontAssets = cacheFonts([require('./assets/SpaceMono-Regular.ttf')]);
