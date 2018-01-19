@@ -1,34 +1,134 @@
 import React from 'react';
 import {
-    Image,
+    Button,
     Platform,
     ScrollView,
     StyleSheet,
     Text,
     View,
 } from 'react-native';
-
+import { Location, Permissions } from 'expo';
 
 export default class market extends React.Component {
-    static navigationOptions = {
-        header: null,
+    state = {
+        title: 'Deliver to: unknown',
+        singleLocation: null,
+        subscription: null,
+        searching: false,
+        watchLocation: null,
+        polyfill: false,
     };
+
+    _findSingleLocation = async () => {
+        const { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+            return;
+        }
+
+        try {
+            this.setState({ searching: true });
+            let result = await Location.getCurrentPositionAsync({
+                enableHighAccuracy: true,
+            });
+            this.setState({ singleLocation: result });
+        } finally {
+            this.setState({ searching: false });
+        }
+    };
+
+    _findSingleLocationWithPolyfill = () => {
+        this.setState({ searching: true });
+        navigator.geolocation.getCurrentPosition(
+            location => {
+                this.setState({ singleLocation: location, searching: false });
+            },
+            err => {
+                console.log({ err });
+                this.setState({ searching: false });
+            },
+            { enableHighAccuracy: true }
+        );
+    };
+
+    _startWatchingLocation = async () => {
+        const { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+            return;
+        }
+
+        let subscription = await Location.watchPositionAsync(
+            {
+                enableHighAccuracy: true,
+                timeInterval: 1000,
+                distanceInterval: 1,
+            },
+            location => {
+                console.log(`Got location: ${JSON.stringify(location.coords)}`);
+                this.setState({ watchLocation: location });
+            }
+        );
+
+        this.setState({ subscription });
+    };
+
+    _startWatchingLocationWithPolyfill = () => {
+        let watchId = navigator.geolocation.watchPosition(
+            location => {
+                console.log(`Got location: ${JSON.stringify(location.coords)}`);
+                this.setState({watchLocation: location});
+            },
+            err => {
+                console.log({err});
+            },
+            {
+                enableHighAccuracy: true,
+                timeInterval: 1000,
+                distanceInterval: 1,
+            }
+        );
+        let subscription = {
+            remove() {
+                navigator.geolocation.clearWatch(watchId);
+            },
+        };
+
+        this.setState({ subscription });
+    };
+
+    _stopWatchingLocation = async () => {
+        this.state.subscription.remove();
+        this.setState({ subscription: null, watchLocation: null });
+    };
+
+    render_loc = async () => {
+        if (this.state.singleLocation){
+            return (
+                <View style={{ padding: 10 }}>
+                    {this._findSingleLocationWithPolyfill()}
+                    <Text>
+                        {this.state.polyfill
+                            ? 'navigator.geolocation.getCurrentPosition'
+                            : 'Location.getCurrentPositionAsync'}
+                        :
+                    </Text>
+                    <Text>Latitude: {this.state.singleLocation.coords.latitude}</Text>
+                    <Text>Longitude: {this.state.singleLocation.coords.longitude}</Text>
+                </View>
+            );
+        }
+    };
+
     render() {
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
                     <View style={styles.welcomeContainer}>
                         <Text style={styles.getStartedText}>
-                            This text is in welcome container
+                            This text is in welcome container{'\n'}
+                            current location:{'\n' + this.render_loc()}
                         </Text>
                     </View>
                 </ScrollView>
-
-                {/*<View style={styles.tabBarInfoContainer}>*/}
-                    {/*<Text style={styles.tabBarInfoText}>*/}
-                        {/*This is a tab bar. You can edit it in*/}
-                    {/*</Text>*/}
-                {/*</View>*/}
             </View>
         );
     }

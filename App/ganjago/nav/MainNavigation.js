@@ -53,7 +53,7 @@ export default TabNavigator(
                     <Ionicons
                         name={iconName}
                         size={28}
-                        style={{ marginBottom: -3 }}
+                        style={{ marginBottom: -2 }}
                         color={focused ? colors.tabIconSelected : colors.tabIconDefault}
                     />
                 );

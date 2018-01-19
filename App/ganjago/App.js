@@ -17,21 +17,13 @@ function cacheFonts(fonts) {
     return fonts.map(font => Font.loadAsync(font));
 }
 
+
 export default class App extends React.Component {
   state = {
       isLoadingDone: false,
   };
-
     render() {
-        // if (!this.state.isLoadingDone) {
-        //     return (
-        //         <AppLoading
-        //             startAsync={this._loadAssetsAsync}
-        //             onError={this._handleLoadingError}
-        //             onFinish={this._handleFinishLoading}
-        //         />
-        //     );
-        // } else {
+        // if (this.state.isLoadingDone){
             return (
                 <View style={styles.container}>
                     {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
@@ -39,13 +31,21 @@ export default class App extends React.Component {
                     <RootNavigation/>
                 </View>
             );
+        // } else {
+        //     return (
+                {/*<AppLoading*/}
+                    // startAsync={this._loadAssetsAsync}
+                    // onError={this._handleLoadingError}
+                    // onFinish={this._handleFinishLoading}
+                // />
+            // );
         // }
     }
 }
 
 _loadAssetsAsync = async () => {
     const imageAssets = cacheImages([
-        require('./assets/account.png'),
+        // require('./assets/account.png'),
         // require('./assets/market.png'),
         // require('./assets/orders.png'),
         // require('./assets/wallet.png'),
